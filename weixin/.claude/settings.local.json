@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(ls \"c:/Users/17928/Desktop/sky-take-out\")",
-      "Read(//c/Users/17928/Desktop/sky-take-out/**)",
-      "Bash(python -c ' *)"
-    ]
-  }
-}
