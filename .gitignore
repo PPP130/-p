@@ -41,6 +41,10 @@ application-dev.yml
 application-local.yml
 application-local.properties
 
+# Node
+node_modules/
+.vite/
+
 # Logs
 *.log
 
