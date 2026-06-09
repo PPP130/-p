@@ -1,0 +1,95 @@
+<navigation-bar title="{{shopName}}" back="{{false}}" color="black" background="#FFC107">
+  <view slot="right" class="nav-right" bind:tap="onSwitchShop">
+    <text class="switch-shop-text">切换</text>
+  </view>
+</navigation-bar>
+
+<view class="page-container">
+  <!-- 店铺打烊提示 -->
+  <view class="shop-closed" wx:if="{{shopStatus !== 1}}">
+    <text>店铺已打烊，暂时无法点餐</text>
+  </view>
+
+  <!-- 店铺图片 -->
+  <image class="shop-banner" src="{{shopImage}}" mode="aspectFill" wx:if="{{shopImage}}"></image>
+
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input">
+      <text class="search-icon">🔍</text>
+      <text class="search-placeholder">搜索</text>
+    </view>
+  </view>
+
+  <!-- 菜品/套餐切换 -->
+  <view class="type-tabs flex-row">
+    <view class="type-tab {{dishType === 1 ? 'active' : ''}}" data-type="{{1}}" bind:tap="onDishTypeChange">菜品</view>
+    <view class="type-tab {{dishType === 2 ? 'active' : ''}}" data-type="{{2}}" bind:tap="onDishTypeChange">套餐</view>
+  </view>
+
+  <!-- 分类+菜品列表 -->
+  <view class="menu-wrap flex-row">
+    <!-- 左侧分类 -->
+    <scroll-view class="category-list" scroll-y>
+      <view
+        class="category-item {{activeCategoryIdx === index ? 'active' : ''}}"
+        wx:for="{{categories}}"
+        wx:key="id"
+        data-idx="{{index}}"
+        bind:tap="onCategoryTap"
+      >{{item.name}}</view>
+    </scroll-view>
+
+    <!-- 右侧菜品 -->
+    <scroll-view class="dish-list" scroll-y>
+      <view wx:if="{{loading}}" class="empty-tip">加载中...</view>
+      <view wx:elif="{{dishes.length === 0}}" class="empty-tip">暂无商品</view>
+      <dish-item
+        wx:for="{{dishes}}"
+        wx:key="id"
+        dish="{{item}}"
+        cartCount="{{item._cartCount || 0}}"
+        bind:cartchange="onCartChange"
+      ></dish-item>
+    </scroll-view>
+  </view>
+
+  <!-- 购物车面板遮罩 -->
+  <view class="cart-mask" wx:if="{{showCartPanel}}" bind:tap="onCloseCartPanel"></view>
+
+  <!-- 购物车面板 -->
+  <view class="cart-panel" wx:if="{{showCartPanel}}">
+    <view class="panel-header flex-row">
+      <text class="panel-title">已选商品</text>
+      <view class="panel-clean" bind:tap="onCartClean"><image class="panel-clean-icon" src="/static/icon_delete.png"></image> 清空</view>
+    </view>
+    <scroll-view class="panel-list" scroll-y>
+      <view class="panel-item flex-row" wx:for="{{cartItems}}" wx:key="id">
+        <image class="panel-item-img" src="{{item.image}}" mode="aspectFill" wx:if="{{item.image}}"></image>
+        <view class="panel-item-img-placeholder" wx:else>🍽️</view>
+        <view class="panel-item-info">
+          <view class="panel-item-name text-ellipsis">{{item.name}}</view>
+          <view class="panel-item-flavor" wx:if="{{item.dishFlavor}}">{{item.dishFlavor}}</view>
+          <view class="panel-item-bottom flex-row">
+            <view class="panel-item-price price">{{item.amount}}</view>
+            <view class="panel-item-action flex-row">
+              <image class="panel-icon-btn" src="/static/icon_sub.png" data-dishid="{{item.dishId}}" data-setmealid="{{item.setmealId}}" data-flavor="{{item.dishFlavor}}" catch:tap="onPanelSub"></image>
+              <view class="panel-count">{{item.number}}</view>
+              <image class="panel-icon-btn" src="/static/icon_add.png" data-dishid="{{item.dishId}}" data-setmealid="{{item.setmealId}}" data-flavor="{{item.dishFlavor}}" catch:tap="onPanelAdd"></image>
+              <image class="panel-icon-delete" src="/static/icon_delete.png" data-dishid="{{item.dishId}}" data-setmealid="{{item.setmealId}}" data-flavor="{{item.dishFlavor}}" data-number="{{item.number}}" catch:tap="onPanelDelete"></image>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 底部购物车栏 -->
+  <cart-bar
+    totalCount="{{cartTotalCount}}"
+    totalAmount="{{cartTotalAmount}}"
+    shopStatus="{{shopStatus}}"
+    bind:toggle="onToggleCartPanel"
+    bind:checkout="onCheckout"
+  ></cart-bar>
+</view>

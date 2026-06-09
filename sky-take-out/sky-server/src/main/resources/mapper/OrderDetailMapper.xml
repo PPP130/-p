@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.OrderDetailMapper">
+
+    <insert id="insertBatch">
+        insert into order_detail(name, order_id, dish_id, setmeal_id, dish_flavor, number, amount, image)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name}, #{item.orderId}, #{item.dishId}, #{item.setmealId}, #{item.dishFlavor}, #{item.number}, #{item.amount}, #{item.image})
+        </foreach>
+    </insert>
+
+    <select id="getTop10" resultType="java.util.Map">
+        select d.name, sum(d.number) as number from order_detail d
+        inner join orders o on d.order_id = o.id
+        where o.status = 5 and o.order_time between #{begin} and #{end}
+        <if test="shopId != null and shopId != ''">
+            and o.shop_id = #{shopId}
+        </if>
+        group by d.name order by number desc limit 10
+    </select>
+</mapper>

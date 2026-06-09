@@ -1,0 +1,37 @@
+<navigation-bar title="收货地址" back="{{true}}" color="black" background="#fff"></navigation-bar>
+
+<view class="page-container">
+  <scroll-view class="address-list" scroll-y>
+    <view wx:if="{{addresses.length === 0}}" class="empty-tip">暂无收货地址</view>
+
+    <view class="address-card" wx:for="{{addresses}}" wx:key="id" data-id="{{item.id}}" bind:tap="onSelect">
+      <view class="address-top flex-row">
+        <text class="address-name">{{item.consignee}}</text>
+        <text class="address-phone">{{item.phone}}</text>
+        <view class="address-tag default" wx:if="{{item.isDefault === 1}}">默认</view>
+        <view class="address-tag" wx:if="{{item.label}}">{{item.label}}</view>
+      </view>
+      <view class="address-detail">{{item.provinceName}}{{item.cityName}}{{item.districtName}}{{item.detail}}</view>
+
+      <view class="address-actions flex-row">
+        <view class="action-item" data-id="{{item.id}}" catch:tap="onSetDefault" wx:if="{{item.isDefault !== 1}}">
+          <text class="action-icon">⭐</text>
+          <text>设为默认</text>
+        </view>
+        <view class="action-item" data-id="{{item.id}}" catch:tap="onEdit">
+          <text class="action-icon">✏️</text>
+          <text>编辑</text>
+        </view>
+        <view class="action-item" data-id="{{item.id}}" catch:tap="onDelete">
+          <text class="action-icon">🗑️</text>
+          <text>删除</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 新增按钮 -->
+  <view class="add-btn-wrap">
+    <view class="add-btn btn-primary" bind:tap="onAdd">新增地址</view>
+  </view>
+</view>

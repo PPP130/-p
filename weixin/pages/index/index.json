@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "navigation-bar": "/components/navigation-bar/navigation-bar",
+    "dish-item": "/components/dish-item/dish-item",
+    "cart-bar": "/components/cart-bar/cart-bar"
+  }
+}

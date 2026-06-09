@@ -1,0 +1,45 @@
+<view class="page-header">
+  <text class="page-title">选择店铺</text>
+</view>
+
+<view class="page-container">
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 店铺列表为空 -->
+  <view class="empty-wrap" wx:elif="{{shops.length === 0}}">
+    <text class="empty-text">暂无可选店铺</text>
+  </view>
+
+  <!-- 店铺列表 -->
+  <scroll-view class="shop-list" scroll-y wx:else>
+    <view
+      class="shop-card {{item.businessStatus !== 1 ? 'shop-closed' : ''}}"
+      wx:for="{{shops}}"
+      wx:key="id"
+      data-shopid="{{item.shopId}}"
+      data-name="{{item.name}}"
+      data-status="{{item.businessStatus}}"
+      bind:tap="onShopTap"
+    >
+      <image class="shop-image" src="{{item.image}}" mode="aspectFill" wx:if="{{item.image}}"></image>
+      <view class="shop-image-placeholder" wx:else></view>
+      <view class="shop-info">
+        <view class="shop-name-row">
+          <text class="shop-name">{{item.name}}</text>
+          <text class="shop-status {{item.businessStatus === 1 ? 'status-open' : 'status-closed'}}">
+            {{item.businessStatus === 1 ? '营业中' : '已打烊'}}
+          </text>
+        </view>
+        <view class="shop-address" wx:if="{{item.address}}">
+          <text>{{item.address}}</text>
+        </view>
+        <view class="shop-desc" wx:if="{{item.description}}">
+          <text>{{item.description}}</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

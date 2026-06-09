@@ -1,0 +1,37 @@
+<view class="dish-item" bind:tap="onShowDetail">
+  <image class="dish-img" src="{{dish.image}}" mode="aspectFill" lazy-load></image>
+  <view class="dish-info">
+    <view class="dish-name text-ellipsis">{{dish.name}}</view>
+    <view class="dish-desc text-ellipsis" wx:if="{{dish.description}}">{{dish.description}}</view>
+    <view class="dish-bottom flex-row">
+      <view class="dish-price price">{{dish.price}}</view>
+      <view class="dish-action flex-row">
+        <view class="action-btn subtract" wx:if="{{cartCount > 0}}" catch:tap="onSubtract">-</view>
+        <view class="action-count" wx:if="{{cartCount > 0}}">{{cartCount}}</view>
+        <view class="action-btn add" catch:tap="onAddToCart">+</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 口味选择弹窗 -->
+  <view class="flavor-mask" wx:if="{{showFlavor}}" catch:tap="onFlavorClose">
+    <view class="flavor-popup" catch:tap="onPopupTap">
+      <view class="flavor-title">选择口味</view>
+      <view class="flavor-section" wx:for="{{flavorGroups}}" wx:key="groupIdx" wx:for-item="group">
+        <view class="flavor-group-name">{{group.name}}</view>
+        <view class="flavor-options flex-row">
+          <view
+            wx:for="{{group.options}}"
+            wx:key="value"
+            wx:for-item="opt"
+            class="flavor-option {{group.selected === opt.value ? 'active' : ''}}"
+            data-group-idx="{{opt.groupIdx}}"
+            data-value="{{opt.value}}"
+            bind:tap="onFlavorSelect"
+          >{{opt.value}}</view>
+        </view>
+      </view>
+      <view class="flavor-btn btn-primary" bind:tap="onFlavorConfirm">确定</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//e/AiTool/open-design-main/.od/projects/820655c8-cce5-4dd1-a43e-c998546ab3af/**)",
+      "Bash(python -c \"from app.main import app; print\\('导入成功'\\)\")",
+      "Bash(./venv/Scripts/python.exe -c \"from app.main import app; print\\('导入成功'\\)\")",
+      "Bash(./venv/Scripts/python.exe -c \"from app.database import query_sessions_list, batch_delete_sessions; print\\('database导入成功'\\)\")",
+      "Bash(./venv/Scripts/python.exe -m uvicorn app.main:app --host 0.0.0.0 --port 8000)"
+    ],
+    "additionalDirectories": [
+      "E:\\AiTool\\open-design-main\\.od\\projects\\820655c8-cce5-4dd1-a43e-c998546ab3af\\src\\router",
+      "E:\\AiTool\\open-design-main\\.od\\projects\\820655c8-cce5-4dd1-a43e-c998546ab3af\\src\\layouts",
+      "E:\\AiTool\\open-design-main\\.od\\projects\\820655c8-cce5-4dd1-a43e-c998546ab3af\\src\\views",
+      "E:\\AiTool\\open-design-main\\.od\\projects\\820655c8-cce5-4dd1-a43e-c998546ab3af\\src\\api"
+    ]
+  }
+}

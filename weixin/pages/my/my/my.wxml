@@ -1,0 +1,65 @@
+<navigation-bar title="我的" back="{{false}}" color="black" background="#FFC107"></navigation-bar>
+
+<view class="page-container">
+  <!-- 用户信息区 -->
+  <view class="user-section">
+    <view class="user-info flex-row">
+      <view class="user-avatar">👤</view>
+      <view class="user-detail">
+        <view class="user-name">微信用户</view>
+        <view class="user-tip">享受美味每一刻</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 当前店铺 -->
+  <view class="shop-section" wx:if="{{shopId}}">
+    <view class="shop-info-row flex-row">
+      <text class="shop-icon"> </text>
+      <view class="shop-detail flex-1">
+        <text class="shop-current-label">当前店铺</text>
+        <text class="shop-current-name">{{shopName}}</text>
+      </view>
+      <text class="switch-btn" bind:tap="onSwitchShop">切换</text>
+    </view>
+  </view>
+
+  <!-- 订单快捷入口 -->
+  <view class="order-section">
+    <view class="section-header flex-row">
+      <text class="section-title">我的订单</text>
+      <text class="section-link" bind:tap="onOrdersTap" data-status="">全部订单 ›</text>
+    </view>
+    <view class="order-shortcuts flex-row">
+      <view class="shortcut-item" data-status="1" bind:tap="onOrdersTap">
+        <view class="shortcut-icon">💰</view>
+        <view class="shortcut-label">待付款</view>
+        <view class="shortcut-badge" wx:if="{{orderCounts.unpaid > 0}}">{{orderCounts.unpaid}}</view>
+      </view>
+      <view class="shortcut-item" data-status="2" bind:tap="onOrdersTap">
+        <view class="shortcut-icon">⏳</view>
+        <view class="shortcut-label">进行中</view>
+        <view class="shortcut-badge" wx:if="{{orderCounts.processing > 0}}">{{orderCounts.processing}}</view>
+      </view>
+      <view class="shortcut-item" data-status="5" bind:tap="onOrdersTap">
+        <view class="shortcut-icon">✅</view>
+        <view class="shortcut-label">已完成</view>
+        <view class="shortcut-badge" wx:if="{{orderCounts.completed > 0}}">{{orderCounts.completed}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="menu-section">
+    <view class="menu-item flex-row" bind:tap="onAddressTap">
+      <text class="menu-icon"> </text>
+      <text class="menu-label flex-1">收货地址</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item flex-row" bind:tap="onAboutTap">
+      <text class="menu-icon">ℹ️</text>
+      <text class="menu-label flex-1">关于</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+</view>

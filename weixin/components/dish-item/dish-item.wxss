@@ -1,0 +1,141 @@
+.dish-item {
+  display: flex;
+  flex-direction: row;
+  padding: 24rpx;
+  background: #fff;
+  border-bottom: 1rpx solid var(--border);
+  position: relative;
+}
+
+.dish-img {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  flex-shrink: 0;
+  background: #f0f0f0;
+}
+
+.dish-info {
+  flex: 1;
+  margin-left: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.dish-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: var(--text);
+}
+
+.dish-desc {
+  font-size: 24rpx;
+  color: var(--text-light);
+  margin-top: 8rpx;
+}
+
+.dish-bottom {
+  justify-content: space-between;
+  margin-top: 12rpx;
+}
+
+.dish-price {
+  font-size: 34rpx;
+}
+
+.dish-action {
+  align-items: center;
+}
+
+.action-btn {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.action-btn.add {
+  background: var(--primary);
+  color: #333;
+}
+
+.action-btn.subtract {
+  border: 2rpx solid var(--text-light);
+  color: var(--text-light);
+  background: #fff;
+}
+
+.action-count {
+  min-width: 48rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: bold;
+  padding: 0 8rpx;
+}
+
+/* 口味弹窗 */
+.flavor-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flavor-popup {
+  width: 600rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+}
+
+.flavor-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.flavor-group {
+  margin-bottom: 24rpx;
+}
+
+.flavor-group-name {
+  font-size: 28rpx;
+  color: var(--text);
+  margin-bottom: 16rpx;
+}
+
+.flavor-options {
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.flavor-option {
+  padding: 12rpx 24rpx;
+  border: 2rpx solid var(--border);
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  color: var(--text);
+}
+
+.flavor-option.active {
+  border-color: var(--primary);
+  background: #FFF8E1;
+  color: var(--primary-dark);
+}
+
+.flavor-btn {
+  margin-top: 30rpx;
+}

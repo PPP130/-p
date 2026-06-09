@@ -1,0 +1,83 @@
+version: "3.8"
+
+services:
+  # MySQL 数据库
+  mysql:
+    image: mysql:8.0
+    container_name: sky-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "338060"
+      MYSQL_DATABASE: sky_take_out
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  # Redis 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: sky-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  # Java 后端
+  java-backend:
+    build:
+      context: ../sky-take-out
+      dockerfile: Dockerfile
+    container_name: sky-java-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - sky.datasource.host=mysql
+      - sky.datasource.port=3306
+      - sky.datasource.database=sky_take_out
+      - sky.datasource.username=root
+      - sky.datasource.password=338060
+      - spring.redis.host=redis
+      - spring.redis.port=6379
+      - ALIYUN_ACCESS_KEY_ID=${ALIYUN_ACCESS_KEY_ID}
+      - ALIYUN_ACCESS_KEY_SECRET=${ALIYUN_ACCESS_KEY_SECRET}
+      - ALIYUN_OSS_BUCKET=${ALIYUN_OSS_BUCKET}
+    depends_on:
+      - mysql
+      - redis
+
+  # Python AI 服务
+  ai-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sky-ai-service
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - LLM_MODEL=${LLM_MODEL}
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=338060
+      - DB_NAME=sky_take_out
+      - REDIS_URL=redis://redis:6379/0
+      - JAVA_API_BASE_URL=http://java-backend:8080
+      - SERVER_PORT=8000
+    volumes:
+      - ./chroma_db:/app/chroma_db
+      - ./knowledge/docs:/app/knowledge/docs
+    depends_on:
+      - mysql
+      - redis
+      - java-backend
+
+volumes:
+  mysql-data:
+  redis-data:

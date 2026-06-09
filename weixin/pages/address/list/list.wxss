@@ -1,0 +1,96 @@
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.address-list {
+  flex: 1;
+  padding: 20rpx;
+  padding-bottom: 140rpx;
+}
+
+.address-card {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.address-top {
+  margin-bottom: 12rpx;
+}
+
+.address-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-right: 16rpx;
+}
+
+.address-phone {
+  font-size: 28rpx;
+  color: var(--text-light);
+  margin-right: 16rpx;
+}
+
+.address-tag {
+  font-size: 22rpx;
+  color: var(--primary-dark);
+  background: #FFF8E1;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+  margin-right: 8rpx;
+}
+
+.address-tag.default {
+  background: var(--primary);
+  color: #333;
+}
+
+.address-detail {
+  font-size: 26rpx;
+  color: var(--text-light);
+  margin-bottom: 16rpx;
+}
+
+.address-actions {
+  border-top: 1rpx solid var(--border);
+  padding-top: 16rpx;
+  justify-content: flex-end;
+  gap: 32rpx;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: var(--text-light);
+}
+
+.action-icon {
+  font-size: 24rpx;
+  margin-right: 6rpx;
+}
+
+.add-btn-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 40rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: #fff;
+  border-top: 1rpx solid var(--border);
+  z-index: 50;
+}
+
+.add-btn {
+  width: 100%;
+}

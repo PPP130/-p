@@ -1,0 +1,31 @@
+# AI服务核心依赖
+fastapi>=0.109.0
+uvicorn>=0.27.0
+python-dotenv>=1.0.0
+
+# LangChain相关
+langchain>=0.1.5
+langchain-openai>=0.0.6
+langchain-community>=0.0.17
+langchain-text-splitters>=0.0.1
+
+# 数据库
+pymysql>=1.1.0
+cryptography>=41.0.0
+
+# Redis
+redis>=5.0.0
+
+# 工具
+pydantic>=2.6.0
+requests>=2.31.0
+
+# SSE流式响应
+sse-starlette>=1.6.0
+
+# 联网搜索
+duckduckgo-search>=7.0.0
+ddgs>=6.0.0
+
+# 知识库
+chromadb>=0.4.0

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.OrderMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into orders(shop_id, number, status, user_id, address_book_id, order_time, checkout_time, pay_method, pay_status, amount, remark, user_name, phone, address, consignee, estimated_delivery_time, delivery_status, delivery_time, pack_amount, tableware_number, tableware_status)
+        values(#{shopId}, #{number}, #{status}, #{userId}, #{addressBookId}, #{orderTime}, #{checkoutTime}, #{payMethod}, #{payStatus}, #{amount}, #{remark}, #{userName}, #{phone}, #{address}, #{consignee}, #{estimatedDeliveryTime}, #{deliveryStatus}, #{deliveryTime}, #{packAmount}, #{tablewareNumber}, #{tablewareStatus})
+    </insert>
+
+    <select id="pageQuery" resultType="com.sky.entity.Orders">
+        select * from orders
+        <where>
+            <if test="shopId != null and shopId != ''">
+                and shop_id = #{shopId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="number != null and number != ''">
+                and number = #{number}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone like concat('%', #{phone}, '%')
+            </if>
+            <if test="beginTime != null">
+                and order_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and order_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by order_time desc
+    </select>
+
+    <update id="update" parameterType="com.sky.entity.Orders">
+        update orders
+        <set>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="payStatus != null">
+                pay_status = #{payStatus},
+            </if>
+            <if test="payMethod != null">
+                pay_method = #{payMethod},
+            </if>
+            <if test="checkoutTime != null">
+                checkout_time = #{checkoutTime},
+            </if>
+            <if test="cancelReason != null">
+                cancel_reason = #{cancelReason},
+            </if>
+            <if test="cancelTime != null">
+                cancel_time = #{cancelTime},
+            </if>
+            <if test="rejectionReason != null">
+                rejection_reason = #{rejectionReason},
+            </if>
+            <if test="deliveryTime != null">
+                delivery_time = #{deliveryTime},
+            </if>
+            <if test="deliveryStatus != null">
+                delivery_status = #{deliveryStatus},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="countByStatus" resultType="java.lang.Integer">
+        select count(id) from orders
+        <where>
+            <if test="shopId != null and shopId != ''">
+                and shop_id = #{shopId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="countByDateRange" resultType="java.util.Map">
+        select DATE_FORMAT(order_time, '%Y-%m-%d') as orderDate, count(id) as orderCount
+        from orders
+        where order_time between #{begin} and #{end}
+        <if test="shopId != null and shopId != ''">
+            and shop_id = #{shopId}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        group by DATE_FORMAT(order_time, '%Y-%m-%d')
+        order by orderDate
+    </select>
+
+    <select id="sumByDateRange" resultType="java.util.Map">
+        select DATE_FORMAT(order_time, '%Y-%m-%d') as orderDate, ifnull(sum(amount), 0) as turnover
+        from orders
+        where status = 5 and order_time between #{begin} and #{end}
+        <if test="shopId != null and shopId != ''">
+            and shop_id = #{shopId}
+        </if>
+        group by DATE_FORMAT(order_time, '%Y-%m-%d')
+        order by orderDate
+    </select>
+</mapper>
